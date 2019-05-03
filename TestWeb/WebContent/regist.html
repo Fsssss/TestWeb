@@ -1,0 +1,335 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>欢迎注册</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
+	<!-- <link rel="stylesheet" href="css/regist.css"/> -->
+	<style type="text/css">
+		body {
+			background: url(./img/login/dl.jpg) no-repeat;
+			background-size: 100%;
+		}
+		.content {
+			width: 42%;
+			height: 50%;
+			margin: 0 auto;
+			position: absolute;
+			top: 220px;
+			left: 50%;
+			transform: translate(-50%,-50%);
+		}
+		.title {
+			text-align: center;
+			color:#777;
+			font-size:27px;
+		}
+		.ipt {
+			border: 1px solid #CCCCCC;
+			height: 25px;
+			line-height:25px;
+			vertical-align: middle;
+		}
+		.table {
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%,-50%);
+		}
+		.btn {
+			background-image: url("./img/regist/zcan01.jpg");
+			width:127px;
+			height:44px;
+			border-style:none;
+			font-size:20px;
+			font-weight:bold;
+			color:white;
+			cursor: pointer;
+		}
+		.btn:hover{
+			background-image: url("./img/regist/zcan02.jpg");
+		}
+		@media only screen and (max-width: 450px){
+			body {
+				background: none;
+			}
+			.content {
+				width: 98%;
+				height: 42%;
+			}
+		}
+		td span {
+			color: red;
+    		font-size: 14px;
+		}
+	</style>
+</head>
+<body>
+	<h3 class="title">欢迎注册</h3>
+	<div class="content">
+		<!-- <form action="#" onsubmit="return checkForm()"> -->
+		<form action="#">
+			<table class="table">
+				<tr>
+					<td class="tds" colspan="2" style="color:red;font-size:15px;text-align:center;">
+					</td>
+				</tr>
+				<tr>
+					<td class="tds">用户名：</td>
+					<td><input class="ipt" id="user_name" type="text" name="user_name" value="" onblur="checkuser_name('user_name', '用户名不能为空')"/>
+						<span id="user_name_msg"></span>
+					</td>
+				</tr>
+				 <tr>
+					<td class="tds">密码：</td>
+					<td><input class="ipt" id="password" type="password" name="password" onblur="checkNull('password', '密码不能为空')"/>
+						<span id="password_msg" ></span>
+					</td>
+				</tr>
+				<tr>
+					<td class="tds">确认密码：</td>
+					<td><input class="ipt" type="password" name="password2"  onblur="checkPassword('password', '两次密码不一致')"/>
+						<span id="password2_msg" ></span>
+					</td>
+				</tr>
+				<tr>
+					<td class="tds">手机号：</td>
+					<td><input class="ipt" type="text" id="user_phone" name="user_phone" value=""onblur="checkNull('user_phone', '手机号不能为空')"
+						/>
+						<span id="user_phone_msg" ></span>
+					</td>
+				</tr>
+				<tr>
+					<td class="tds">用户地址：</td>
+					<td><input class="ipt" id="user_location" type="text" name="user_location" value=""onblur="checkNull('user_location', '用户地址不能为空')"
+						/>
+						<span id="user_location_msg" ></span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tds">邮箱：</td>
+					<td><input class="ipt" id="email" type="text" name="email" value=""onblur="checkEmail('email', '邮政编码不能为空')"/>
+						<span id="email_msg" ></span>
+					</td>
+				</tr>
+				
+				<!-- <tr>
+					<td class="tds">验证码：</td>
+					<td><input class="ipt" type="text" name="valistr" onblur="checkNull('valistr', '验证码不能为空')"/>
+						 <img id="yzm_img" src="<%= request.getContextPath() %>/ValiImageServlet" style="cursor: pointer" onclick="changeImage(this)"/>
+						<span id="valistr_msg" ></span>
+					</td>
+				</tr>  -->
+				<script>
+					function changeImage(thisobj){
+						thisobj.src = "<%= request.getContextPath() %>/ValiImageServlet?time="+new Date().getTime();
+					}
+				</script>
+				<tr>
+					<td colspan="2">
+						<input class="btn" type="button" value="注册用户"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	
+</body>
+</html>
+	<!-- <script type="text/javascript" src="<%= request.getContextPath() %>/js/ajax.js"></script> -->
+	<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+	<script type="text/javascript">
+		$(function(){
+
+			//ajax调用后台插入注册数据
+			 $('.btn').click(function(){
+			 	var params = {
+			 		'username':$('#user_name').val(),
+			 		'password':$('#password').val(),
+			 		'user_phone':$('#user_phone').val(),
+			 		'user_location':$('#user_location').val(),
+			 		'email':$('#email').val()
+			 	}
+			 	var url = "http://localhost:8080/TestWeb/servlet/loginServlet";
+			 	$.ajax({
+			 		'url':url,
+			 		'data':params, 
+			 		'type':"post",
+			 		'success':function(data){
+			 			alert(data);
+			 		},
+			 		'error':function(XMLHttpResponse, textStatus, errorThrown){
+			 			console.log("注册失败");
+			 			console.log("1 异步调用返回失败,XMLHttpResponse.readyState:"+XMLHttpResponse.readyState);
+	                    console.log("2 异步调用返回失败,XMLHttpResponse.status:"+XMLHttpResponse.status);
+	                    console.log("3 异步调用返回失败,textStatus:"+textStatus);
+	                    console.log("4 异步调用返回失败,errorThrown:"+errorThrown);
+			 		}
+			 	})
+
+			 })
+		})
+		//检查表单项是否为空
+			function checkNull(name,msg){
+				var tt = document.getElementsByName(name);
+				if(tt[0].value == "" || tt[0].value == null){
+					setMsg(name,msg);
+				}
+			}
+
+			//设置span提示内容
+			function setMsg(name,msg){
+				document.getElementById(name+"_msg").innerHTML = msg;
+			}
+
+			//检查邮箱格式是否正确
+			function checkEmail (name, msg){
+				var tt = document.getElementsByName(name);
+				if(tt[0].value == "" || tt[0].value == null){
+					checkNull(name, "邮箱格式不正确");
+					return;
+				}
+				var email = document.getElementsByName(name)[0].value;
+				setMsg(name,"");
+				var reg = /^\w+@\w+(\.\w+)+$/;
+				if(email != null && !reg.test(email)){
+					setMsg(name, "邮箱格式不正确");
+					return false;
+				}
+				return true;
+			}
+
+
+			//检查用户名是否为空
+			function checkuser_name(name,msg){
+				var tt = document.getElementsByName(name);
+				if(tt[0].value == "" || tt[0].value == null){
+					setMsg(name,msg);
+				}
+			}
+			
+			// /* 检查两次密码是否一致 */
+			function checkPassword(name, msg){
+				var psw1 = document.getElementsByName(name)[0].value;
+				var psw2 = document.getElementsByName(name+"2")[0].value;
+				setMsg(name+"2","");
+				checkNull(name+"2", "确认密码不能为空");
+				if(psw1 != null && psw2 != null){
+					if(psw1 != psw2){
+						setMsg(name+"2", msg);
+						return false;
+					}
+				}
+				return true;
+			}
+
+			// /* 注册表单校验 */
+
+			// function checkForm(){
+			// 	var flag = true;
+			// 	//>>非空校验
+			// 	flag = checkNull("user_name", "用户名不能为空") && flag;
+			// 	flag = checkNull("password", "密码不能为空") && flag;
+			// 	flag = checkNull("password2", "确认密码不能为空") && flag;
+			// 	//>>两次密码是否一致校验
+			// 	flag = checkPassword("password", "两次密码不一致") && flag;
+			// 	flag = checkNull("user_phone", "手机号不能为空") && flag;
+				
+			// 	flag = checkNull("user_location", "地址不能为空") && flag;
+			// 	flag = checkNull("email", "邮箱不能为空") && flag;
+			// 	//>>邮箱格式是否正确
+			// 	flag = checkEmail("email", "邮箱格式不正确") && flag;
+				
+			// 	flag = checkNull("valistr", "验证码不能为空") && flag;
+				
+				
+			// 	return flag;
+			// }
+			
+			// /* 利用ajax实现用户名是否存在的校验 */
+			function checkuser_name(name,msg){
+				var user = {"username":$('#user_name').val()};
+				console.log(user);
+				if($('#user_name').val() == null || $('#user_name').val() == "" ){
+					setMsg(name,msg);
+					return;
+				}
+				var url = "http://localhost:8080/TestWeb/servlet/RegistServlet";
+			 	$.ajax({
+			 		'url':url,
+			 		'data':user, 
+			 		'type':"post",
+			 		'success':function(data){
+			 			setMsg(name, data);
+			 		},
+			 		'error':function(XMLHttpResponse, textStatus, errorThrown){
+			 			console.log("注册失败");
+			 			console.log("1 异步调用返回失败,XMLHttpResponse.readyState:"+XMLHttpResponse.readyState);
+	                    console.log("2 异步调用返回失败,XMLHttpResponse.status:"+XMLHttpResponse.status);
+	                    console.log("3 异步调用返回失败,textStatus:"+textStatus);
+	                    console.log("4 异步调用返回失败,errorThrown:"+errorThrown);
+			 		}
+			 	})
+
+			}
+			// function checkuser_name(thisobj){
+			// 	//检查用户名是否为空
+			// 	if(!checkNull("user_name", "用户名不能为空")){
+			// 		return;
+			// 	}
+				
+			// 	//利用ajax实现用户名是否存在的校验
+			// 	var user_name = thisobj.value;
+				
+			// 	//1.获取XMLHttpRequest对象
+			// 	var xmlHttp = ajaxFunction();
+				
+			// 	//2.建立连接
+			// 	xmlHttp.open("POST", "http://localhost:8080/TestWeb/servlet/RegistServlet", true);
+				
+			// 	//3.发送请求
+			// 	//通知服务器发送的数据是请求参数
+			// 	xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			// 	xmlHttp.send("username="+user_name);
+				
+			// 	//4.注册监听
+			// 	xmlHttp.onreadystatechange = function(){
+			// 		//时刻监听服务器处理请求的过程(状态), 但是我们只关心为4的状态
+			// 		if(xmlHttp.readyState == 4){
+			// 			//如果请求处理成功了才获取响应结果
+			// 			if(xmlHttp.status == 200){
+			// 				//获取响应结果
+			// 				var result = xmlHttp.responseText;
+			// 				if(result == "true"){
+			// 					setMsg("username", "用户名已存在");
+			// 				}else{
+			// 					setMsg("username", "恭喜, 用户名可以使用");
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			// }
+
+			// function ajaxFunction(){
+			// 	var xmlHttp;
+			// 	try{
+			// 		xmlHttp = new XMLHttpRequest();
+			// 	}catch(e){
+			// 		try{
+			// 			//IE6.0
+			// 			xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+			// 		}catch(e){
+			// 			try{
+			// 				xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+			// 			}catch(e){
+			// 				alert("...");
+			// 				throw e;
+			// 			}
+			// 		}
+			// 	}
+			// 	return xmlHttp;
+			// }
+		
+
+	</script>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>  
+<html>
+<head>  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>城市交通出行查询系统</title>  
+<link rel="stylesheet" type="text/css" href="./css/index.css"> 
+<link rel="stylesheet" type="text/css" href="./css/iconfont.css">
+<style type="text/css">
+	* {
+   	  	margin: 0;
+   	 	padding: 0;
+   	 	list-style: none;
+   	  	text-decoration: none;
+   } 
+	html{
+		height:100%
+	}  
+	body{
+		height:100%;
+		margin:0px;
+		padding:0px
+	}  
+	.current {
+		background: #e7e7e7;
+	}
+	.cancel {
+		background: none;
+	}
+	#result {
+		display: block;
+	}
+	.navtrans-view a {
+		display: none;
+	}
+</style>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=wiGtpxLB5H5xnymljkXHVlT7tobdSgbb">
+</script>
+</head>  
+ 
+<body>
+	<div class="top clearfix">
+		<h3>城市交通出行查询系统-驾车查询</h3>
+	</div>
+	<div class="nav">
+		<ul id="nav_ul">
+			<li id="nav_li" class="nav_bus">
+				<a href="index.html">公交</a>
+			</li>
+			<li id="nav_li" class="nav_drive current">
+				<a href="#">驾车</a>
+			</li>
+			<li id="nav_li" class="nav_walk">
+				<a href="#">步行</a>
+			</li>
+			<li class="login right">
+				<a href="regist.html">注册</a>
+			</li>
+			<li class="register right">
+				<a href="login.html">登录</a>
+			</li>
+		</ul>
+	</div>
+	<div name="content clearfix">
+		<!-- 列表 -->
+		<div class="conetent-left">
+			<div class="input_box">
+				<div class="round">
+					<ul>
+						<li class="round_01"></li>
+						<li class="round_02"></li>
+						<li class="round_02"></li>
+						<li class="round_02"></li>
+						<li class="round_02"></li>
+						<li class="round_03"></li>
+					</ul>
+				</div>
+				<input type="text" id="text1" value="请输入起点" name="ipt_1" class="ipt_1 ipt">
+				<input type="text" id="text2" value="请输入终点" name="ipt_2" class="ipt_2 ipt">
+				<button id="btn_change" class="btn_change"> 
+					<img src="img/btn_exchange.png">
+				</button>
+				<button id="btn_search" class="btn_search">
+					<span class="iconfont icon-canjirendituchaxun"></span>
+				</button>
+				<!-- <button class="btn_search">搜 索</button> -->
+			</div>
+
+			<div id="l-map"></div>
+			<div id="routePanel">
+					<p style="margin-right:10px;">起点：<span id="start"></span></p>
+					<p>终点：<span id="end"></span>
+			</div>
+			<div id="r-result"></div>
+		</div>
+		<!-- 地图 -->
+		<div id="container" name="clearfix"></div>
+	</div>
+ 	<script type="text/javascript"> 
+		window.onload = function() {
+			//功能代码
+			var ipt_1 = document.getElementById("text1");
+			var ipt_2 = document.getElementById("text2");
+			var btn_change = document.getElementById("btn_change");
+			var btn_search = document.getElementById("btn_search");
+			var nav_bus = document.getElementsByClassName("nav_bus")[0];
+			var nav_walk = document.getElementsByClassName("nav_walk")[0];
+			var nav_drive = document.getElementsByClassName("nav_drive")[0];
+
+			//tab标签切换
+			// var nav_li = document.getElementById("nav_ul").getElementsByTagName("li")
+			var nav_li = document.getElementById("nav_li");
+			console.log(nav_li);
+			for(var i = 0; i<=nav_li.length; i++){
+				nav_li[i].onclick = function (){
+					for (var j = 0; j < nav_li.length; j++) {
+						nav_li[j].classList.add("cancel");
+					}
+					this.classList.remove("cancel");
+					this.classList.add("current");
+				}
+			}
+
+			//输入框值交换
+			btn_change.onclick = exchange;
+			function exchange(){
+				var ipt_value = ipt_1.value;
+				ipt_1.value = ipt_2.value;
+				ipt_2.value = ipt_value;
+			}
+
+
+		 	//地图代码
+			var map = new BMap.Map("container");
+			// 创建地图实例  
+			var point = new BMap.Point(116.404, 39.915);
+			// 创建点坐标  
+			map.centerAndZoom(point, 15);
+			// 初始化地图，设置中心点坐标和地图级别  
+			map.enableScrollWheelZoom(true);
+			map.addControl(new BMap.NavigationControl());    
+			map.addControl(new BMap.ScaleControl());    
+			map.addControl(new BMap.OverviewMapControl());    
+			map.addControl(new BMap.MapTypeControl());    
+			map.setCurrentCity("黄石");
+
+		    // 百度地图API功能
+
+		    //路线查询
+		    btn_search.onclick = drive_search;
+		    function drive_search() {
+		    	driving.search(start.innerHTML,end.innerHTML);
+		    	start.innerHTML = ipt_1.value;
+		    	end.innerHTML = ipt_2.value;
+		    	console.log(start.innerHTML);
+		    	console.log(end.innerHTML);
+
+		    }
+			var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, panel: "r-result",onResultsHtmlSet : function(){$("#r-result").show()},autoViewport: true}});
+
+
+
+			// var geolocation = new BMap.Geolocation();
+			// 	geolocation.getCurrentPosition(function(r){
+			// 		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			// 			var mk = new BMap.Marker(r.point);
+			// 			map.addOverlay(mk);
+			// 			map.panTo(r.point);
+			// 			alert('您的位置：'+r.point.lng+','+r.point.lat);
+			// 		}
+			// 		else {
+			// 			alert('failed'+this.getStatus());
+			// 		}        
+			// 	});
+
+			// function myFun(result){
+			// 	var cityName = result.name;
+			// 	map.setCenter(cityName);
+			// 	alert("当前定位城市:"+cityName);
+			// }
+			// var myCity = new BMap.LocalCity();
+			// myCity.get(myFun); 
+
+			// var geolocation = new BMap.Geolocation();
+			// // 开启SDK辅助定位
+			// geolocation.enableSDKLocation();
+			// geolocation.getCurrentPosition(function(r){
+			// 	if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			// 		var mk = new BMap.Marker(r.point);
+			// 		map.addOverlay(mk);
+			// 		map.panTo(r.point);
+			// 		// alert('您的位置：'+r.point.lng+','+r.point.lat);
+			// 	}
+			// 	else {
+			// 		// alert('failed'+this.getStatus());
+			// 	}        
+			// });
+		}
+	</script>
+</body>  
+</html>
+ 

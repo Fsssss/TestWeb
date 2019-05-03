@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>登录</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
+	<style type="text/css">
+		body {
+			background: url(./img/login/dl.jpg) no-repeat;
+			background-size: 100%;
+		}
+		.content {
+			width: 42%;
+			height: 50%;
+			margin: 0 auto;
+			position: absolute;
+			top: 220px;
+			left: 50%;
+			transform: translate(-50%,-50%);
+		}
+		.title {
+			text-align: center;
+			color:#777;
+			font-size:27px;
+		}
+		.ipt {
+			border: 1px solid #CCCCCC;
+			height: 25px;
+			line-height:25px;
+			vertical-align: middle;
+		}
+		.table {
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%,-50%);
+		}
+		.btn {
+			background-image: url("./img/login/dlan01.jpg");
+			width:92px;
+			height:44px;
+			border-style:none;
+			font-size:20px;
+			font-weight:bold;
+			color:white;
+			cursor: pointer;
+		}
+		.btn:hover{
+			background-image: url("./img/login/dlan02.jpg");
+		}
+		@media only screen and (max-width: 450px){
+			body {
+				background: none;
+			}
+			.content {
+				width: 98%;
+				height: 42%;
+			}
+		}
+	</style>
+</head>
+<body>
+
+	<h3 class="title">欢迎登陆城市交通出行查询系统</h1>
+	<div class="content">
+		<form>
+			<table class="table">
+				<tr>
+					<td class="tdx" colspan="2" style="color:red; font-size: 14px; text-align:center">
+					</td>
+				</tr>
+				<tr>
+					<td class="tdx">用户名:</td>
+					<td><input class="ipt" id="username" type="text" name="username" value=""/></td>
+				</tr>
+				<tr>
+					<td class="tdx">密&nbsp&nbsp&nbsp码:</td>
+					<td><input class="ipt" id="password" type="password" name="password"/></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="checkbox" name="remname" value="true"
+						/>记住用户名
+						<input type="checkbox" name="autologin" value="true"/>30天内自动登陆
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input class="btn" id="btn" type="button" value="登陆"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+<script type="text/javascript">
+	$(function () {
+		$('#btn').click(function(){
+			var url = "http://localhost:8080/TestWeb/servlet/loginServlet";
+			var params = {"username":$('#username').val(),"password":$('#password').val()};
+			console.log(params);
+			 $.ajax({
+			 		'url':url,
+			 		'data':params, 
+			 		'type':"post",
+			 		 'xhrFields': {
+			                withCredentials: true // 这里设置了withCredentials
+			            },
+			 		'success':function(data){
+			 			console.log(params.username);
+			 			alert(data.message);
+			 			checkCookie(params.username);
+			 			
+			 			window.location.href = "index.html";
+			 		},
+			 		'error':function(XMLHttpResponse, textStatus, errorThrown){
+			 			alert("用户名或密码错误");
+			 			console.log("用户名或密码错误");
+			 			console.log("1 异步调用返回失败,XMLHttpResponse.readyState:"+XMLHttpResponse.readyState);
+	                    console.log("2 异步调用返回失败,XMLHttpResponse.status:"+XMLHttpResponse.status);
+	                    console.log("3 异步调用返回失败,textStatus:"+textStatus);
+	                    console.log("4 异步调用返回失败,errorThrown:"+errorThrown);
+			 		}
+			 	})
+        });
+		function setCookie(c_name,value,expiredays){
+			var exdate=new Date()
+			exdate.setDate(exdate.getDate()+expiredays)
+			document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+		}
+		function getCookie(c_name){
+			if (document.cookie.length>0){
+		  		c_start=document.cookie.indexOf(c_name + "=")
+		 	 	if (c_start!=-1){ 
+				    c_start=c_start + c_name.length+1;
+				    c_end=document.cookie.indexOf(";",c_start);
+		    		if (c_end==-1) c_end=document.cookie.length
+		    		return unescape(document.cookie.substring(c_start,c_end))
+		    	} 
+		  	}
+			return ""
+		}
+		
+		function checkCookie(name){
+			user=getCookie('username');
+			if (user!=null && user!=""){
+				alert('Welcome again '+user+'!')
+				}
+			else {
+			  user=name;
+			  if (user!=null && user!=""){
+			    setCookie('username',user,365)
+			  }
+			}
+		}
+	})
+</script>

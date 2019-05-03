@@ -1,0 +1,97 @@
+<!DOCTYPE html>  
+<html>
+<head>  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>城市交通出行查询系统</title>  
+<link rel="stylesheet" type="text/css" href="./css/index.css"> 
+<link rel="stylesheet" type="text/css" href="./css/iconfont.css">
+<style type="text/css">
+	* {
+   	  	margin: 0;
+   	 	padding: 0;
+   	 	list-style: none;
+   	  	text-decoration: none;
+   } 
+	html{
+		height:100%
+	}  
+	body{
+		height:100%;
+		margin:0px;
+		padding:0px
+	}  
+	.current {
+		background: #e7e7e7;
+	}
+	.cancel {
+		background: none;
+	}
+</style>
+<script type="text/javascript" src="js/index.js"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=wiGtpxLB5H5xnymljkXHVlT7tobdSgbb">
+</script>
+</head>  
+ 
+<body>
+	<div class="top clearfix">
+		<h3>城市交通出行查询系统-公交查询</h3>
+	</div>
+	<div class="nav">
+		<ul id="nav_ul">
+			<li id="nav_li" class="nav_bus" value="1">
+				<a href="#">公交</a>
+			</li>
+			<li id="nav_li" class="nav_drive" value="2">
+				<a href="#">驾车</a>
+			</li>
+			<li id="nav_li" class="nav_walk" value="3">
+				<a href="#">步行</a>
+			</li>
+			<li class="register right">
+				<a href="regist.html">注册</a>
+			</li>
+			<li class=" login right">
+				<a href="login.html">登录</a>
+			</li>
+		</ul>
+	</div>
+	<div name="content clearfix">
+		<!-- 列表 -->
+		<div class="conetent-left">
+			<div class="input_box">
+				<div class="round">
+					<ul>
+						<li class="round_01"></li>
+						<li class="round_02"></li>
+						<li class="round_02"></li>
+						<li class="round_02"></li>
+						<li class="round_02"></li>
+						<li class="round_03"></li>
+					</ul>
+				</div>
+				<input type="text" id="text1" placeholder="请输入起点" name="ipt_1" class="ipt_1 ipt">
+				<input type="text" id="text2" placeholder="请输入终点" name="ipt_2" class="ipt_2 ipt">
+				<button id="btn_change" class="btn_change"> 
+					<img src="img/btn_exchange.png">
+				</button>
+				<button id="btn_search" class="btn_search">
+					<span class="iconfont icon-canjirendituchaxun"></span>
+				</button>
+				<!-- <button class="btn_search">搜 索</button> -->
+			</div>
+
+			<div id="l-map"></div>
+			<div id="routePanel">
+					<p style="margin-right:10px;">起点：<span id="start"></span></p>
+					<p>终点：<span id="end"></span>
+			</div>
+			<div id="r-result"></div>
+		</div>
+		<!-- 地图 -->
+		<div id="container" name="clearfix"></div>
+	</div>
+</body>  
+</html>
+ 
