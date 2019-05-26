@@ -121,11 +121,11 @@
 						<span id="valistr_msg" ></span>
 					</td>
 				</tr>  -->
-				<script>
+				<!-- <script>
 					function changeImage(thisobj){
 						thisobj.src = "<%= request.getContextPath() %>/ValiImageServlet?time="+new Date().getTime();
 					}
-				</script>
+				</script> -->
 				<tr>
 					<td colspan="2">
 						<input class="btn" type="button" value="注册用户"/>
@@ -151,13 +151,15 @@
 			 		'user_location':$('#user_location').val(),
 			 		'email':$('#email').val()
 			 	}
-			 	var url = "http://localhost:8080/TestWeb/servlet/loginServlet";
+			 	console.log(params);
+			 	var url = "servlet/RegistServlet";
 			 	$.ajax({
 			 		'url':url,
 			 		'data':params, 
 			 		'type':"post",
 			 		'success':function(data){
 			 			alert(data);
+			 			window.location.href = "index.html";
 			 		},
 			 		'error':function(XMLHttpResponse, textStatus, errorThrown){
 			 			console.log("注册失败");
@@ -187,7 +189,7 @@
 			function checkEmail (name, msg){
 				var tt = document.getElementsByName(name);
 				if(tt[0].value == "" || tt[0].value == null){
-					checkNull(name, "邮箱格式不正确");
+					checkNull(name, "邮箱不能为空");
 					return;
 				}
 				var email = document.getElementsByName(name)[0].value;
@@ -202,12 +204,12 @@
 
 
 			//检查用户名是否为空
-			function checkuser_name(name,msg){
+			/* function checkuser_name(name,msg){
 				var tt = document.getElementsByName(name);
 				if(tt[0].value == "" || tt[0].value == null){
 					setMsg(name,msg);
 				}
-			}
+			} */
 			
 			// /* 检查两次密码是否一致 */
 			function checkPassword(name, msg){
@@ -223,30 +225,6 @@
 				}
 				return true;
 			}
-
-			// /* 注册表单校验 */
-
-			// function checkForm(){
-			// 	var flag = true;
-			// 	//>>非空校验
-			// 	flag = checkNull("user_name", "用户名不能为空") && flag;
-			// 	flag = checkNull("password", "密码不能为空") && flag;
-			// 	flag = checkNull("password2", "确认密码不能为空") && flag;
-			// 	//>>两次密码是否一致校验
-			// 	flag = checkPassword("password", "两次密码不一致") && flag;
-			// 	flag = checkNull("user_phone", "手机号不能为空") && flag;
-				
-			// 	flag = checkNull("user_location", "地址不能为空") && flag;
-			// 	flag = checkNull("email", "邮箱不能为空") && flag;
-			// 	//>>邮箱格式是否正确
-			// 	flag = checkEmail("email", "邮箱格式不正确") && flag;
-				
-			// 	flag = checkNull("valistr", "验证码不能为空") && flag;
-				
-				
-			// 	return flag;
-			// }
-			
 			// /* 利用ajax实现用户名是否存在的校验 */
 			function checkuser_name(name,msg){
 				var user = {"username":$('#user_name').val()};
@@ -255,7 +233,7 @@
 					setMsg(name,msg);
 					return;
 				}
-				var url = "http://localhost:8080/TestWeb/servlet/RegistServlet";
+				var url = "servlet/InspectServlet";
 			 	$.ajax({
 			 		'url':url,
 			 		'data':user, 

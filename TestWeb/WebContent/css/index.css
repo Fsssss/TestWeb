@@ -100,7 +100,7 @@
 		position: absolute;
 		top: 25%;
 		height: 30px;
-		left: 65%;
+		left: 62%;
 		border: none;
 		cursor:pointer;
 	}
@@ -112,7 +112,7 @@
 		position: absolute;
 		top: 25%;
 		height: 30px;
-		left: 78%;
+		left: 74%;
 		border: none;
 		cursor:pointer;
 		background: #f7f7f7;
@@ -120,7 +120,18 @@
 	.btn_search .iconfont {
 		font-size: 27px;
 	}
-
+	.input_box .btn_history {
+		position: absolute;
+	    top: 25%;
+	    height: 30px;
+	    width: 50px;
+	    left: 85%;
+	    border: none;
+	    cursor: pointer;
+	    background: #f1f1f8;
+	    font-size: 18px;
+	    border: 1px solid green;
+	}
 	#l-map{ 
 		width:100%;
 	}
@@ -171,7 +182,16 @@
 	.anchorBL{
 		display:none;
 	} 
-
+	#routePanel{
+		display:none;	
+	}
+	.h_tr:nth-child(odd){
+		background:#F4F4F4;
+	}
+	.h_tr:hover {
+		color: #555;
+    	background-color: #e7e7e7;
+	}
 	@media only screen and (max-width: 450px){
 		.nav ul {
 			margin: 0 20px

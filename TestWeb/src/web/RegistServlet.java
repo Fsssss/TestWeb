@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-@WebServlet("/RegistServlet")
 public class RegistServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,7 +29,7 @@ public class RegistServlet extends HttpServlet {
 		String userphone = request.getParameter("user_phone");
 		String location = request.getParameter("user_location");
 		String email = request.getParameter("email");
-		String message = "{\"message\":\"注册成功\"}";
+		String message = "{\"message\":\"注册成功\" }";
 		
 		// 3.注册用户(将用户信息保存到数据库中)
 				Connection conn = null;

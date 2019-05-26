@@ -77,13 +77,13 @@
 					<td class="tdx">密&nbsp&nbsp&nbsp码:</td>
 					<td><input class="ipt" id="password" type="password" name="password"/></td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td colspan="2">
 						<input type="checkbox" name="remname" value="true"
 						/>记住用户名
 						<input type="checkbox" name="autologin" value="true"/>30天内自动登陆
 					</td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td colspan="2">
 						<input class="btn" id="btn" type="button" value="登陆"/>
@@ -98,7 +98,7 @@
 <script type="text/javascript">
 	$(function () {
 		$('#btn').click(function(){
-			var url = "http://localhost:8080/TestWeb/servlet/loginServlet";
+			var url = "servlet/loginServlet";
 			var params = {"username":$('#username').val(),"password":$('#password').val()};
 			console.log(params);
 			 $.ajax({

@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Login
  */
-@WebServlet("/Login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 5417488369543075097L;
 
@@ -32,7 +31,8 @@ public class LoginServlet extends HttpServlet {
 //       if("Ë«»÷".equals(username) && "666".equals(password)) {
 //            response.getWriter().write(message);
 //        }
-    	
+    	System.out.print(username);
+    	System.out.print(password);
     	DBUtil db = new DBUtil();
     	try {
     		String sql = "select * from user_zc where user_name=? and user_pw=?";
